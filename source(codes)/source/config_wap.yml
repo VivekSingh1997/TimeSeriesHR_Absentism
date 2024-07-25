@@ -1,0 +1,80 @@
+plant:
+    code        : 9103
+    latitude    : 42.2947833
+    longitude   : -82.9845111
+    market_id   : 7
+    shift_days  : 5
+    shift_hours : 8
+    absence_codes: [
+        'BERC',
+        'BERE',
+        'BERU',
+        'CARE',
+        'CARU',
+        'HOMM',
+        'IPNE',
+        'IPNU',
+        'MISE',
+        'MISU',
+        'PEIA',
+        'PELE',
+        'PERE',
+        'PERU']
+    exclude_dates: [['2018-01-08', '2018-01-12'],
+                    ['2018-07-16', '2018-07-27'],
+                    ['2018-10-29', '2018-11-02'],
+                    ['2019-01-02', '2019-01-11'],
+                    ['2019-02-18', '2019-02-22'],
+                    ['2019-04-01', '2019-04-12'],
+                    ['2019-07-08', '2019-08-09'],
+                    ['2020-06-22', '2020-06-26'],
+                    ['2020-07-20', '2020-07-31'],
+                    ['2020-09-21', '2020-09-25'],
+                    ['2020-10-05', '2020-10-09']]
+
+base_table:
+    start_date     : 2018-01-01
+    end_date       :
+    use_table      :
+    use_table_date :
+    write_table    : True
+
+model:
+    models           : ['sarimax']
+    target           : absences_unplanned
+    npreds           : 5
+    p_arima          : 1
+    d_arima          : 0
+    q_arima          : 0
+    features         : [
+        'actual_hours',
+        'lost_hours',
+        'absences_unplanned_rolling_median_12',
+        'absences_unplanned_rolling_median_20',
+        'quarter',
+        'month',
+        'week',
+        'day',
+        'day_of_week',
+        'day_of_year']
+    top_features     : 5
+    band_pct         : 0.3
+    levels           : ['crew', 'production_line']
+    crews            : ['Shift 1', 'Shift 2']
+    departments      : {'Trim'         : '9350',
+                        'Chassis'      : '9370',
+                        'Final'        : '9371'}
+    production_lines : {'Trim Line' :
+                            ['Trim',
+                            ['01', '02', '03', '04', '05', '06', '07', '08']],
+                        'Chassis Line' :
+                            ['Trim',
+                            ['01', '03', '04', '05', '06']],
+                        'Final Line' :
+                            ['Final',
+                            ['01', '02', '03', '04', '05']]}
+    inactive_production_lines : {}
+    write_table      : True
+    use_peaks        : False
+    peak_table       : abs_ad_median_replace_tbl_20190917
+ 

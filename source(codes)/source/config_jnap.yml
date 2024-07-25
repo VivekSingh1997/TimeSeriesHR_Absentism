@@ -1,0 +1,112 @@
+plant:
+    code        : 4012
+    latitude    : 42.375292
+    longitude   : -82.966222
+    market_id   : 7
+    shift_days  : 4
+    shift_hours : 10
+    absence_codes: [
+        'BERC',
+        'BERE',
+        'BERU',
+        'BERX',
+        'CARE',
+        'CARU',
+        'FMLA',
+        'FMLD',
+        'FMLU',
+        'HOMD',
+        'ILFE',
+        'ILFU',
+        'IPBE',
+        'IPME',
+        'IPNU',
+        'IPSE',
+        'JURE',
+        'MISE',
+        'MISU',
+        'PERU',
+        'PPAA',
+        'PPAU',
+        'TRAG',
+        'WTRU']
+    exclude_dates: [
+        ['2018-08-25', '2018-08-31'],
+        ['2019-01-02', '2019-01-05'],
+        ['2020-01-01', '2020-01-05'],
+        ['2020-08-10', '2020-08-14']]
+
+base_table:
+    start_date     : 2017-01-01
+    end_date       :
+    use_table      :
+    use_table_date :
+    write_table    : True
+
+model:
+    models           : ['sarimax']
+    target           : absences_unplanned
+    npreds           : 4
+    p_arima          : 1
+    d_arima          : 0
+    q_arima          : 0
+    features         : [
+        'actual_hours',
+        'lost_hours',
+        'absences_unplanned_rolling_median_12',
+        'absences_unplanned_rolling_median_20',
+        'quarter',
+        'month',
+        'week',
+        'day',
+        'day_of_week',
+        'day_of_year']
+    top_features     : 5
+    band_pct         : 0.3
+    levels           : ['crew', 'production_line']
+    crews            : ['A', 'B', 'C']
+    departments      : {'Material'   : '3300',
+                        'Body Shop'  : '9110',
+                        'Paint Shop' : '9130',
+                        'Trim'       : '9150',
+                        'Chassis'    : '9170',
+                        'Final'      : '9173',
+                        'Quality 1'  : '9190',
+                        'Quality 2'  : '9193'}
+    production_lines : {'Material'      : ['Material',
+                                           ['11', '12', '24', '41', '42', '43', '44', '45']],
+                        'Body Shop'     : ['Body Shop',
+                                           []],
+                        'Paint Shop'    : ['Paint Shop',
+                                           []],
+                        'Trim 1'        : ['Trim',
+                                           ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '22']],
+                        'Trim 2'        : ['Trim',
+                                           ['13', '14', '15', '16', '17', '18', '19', '20', '21']],
+                        'Door Line'     : ['Trim',
+                                           ['35', '36', '37', '38', '39', '40', '41']],
+                        'Engine Line'   : ['Chassis',
+                                           ['01', '02', '03', '04', '05', '06', '07']],
+                        'Chassis 1 & 2' : ['Chassis',
+                                           ['08', '09', '10', '11', '12', '13', '14', '15', '16', '17']],
+                        'Sunroof Deck'  : ['Chassis',
+                                           ['18', '19', '20', '21', '22']],
+                        'Chassis 3'     : ['Chassis',
+                                           ['23', '24', '25', '26', '27', '28', '29', '30', '31']],
+                        'Chassis 4'     : ['Chassis',
+                                           ['32', '33', '34', '35', '36', '37', '38']],
+                        'Final 1'       : ['Final',
+                                           ['01', '02', '03', '04', '05', '06', '07', '08']],
+                        'Final 2'       : ['Final',
+                                           ['09', '10', '11', '12', '13', '14']],
+                        'Rolls'         : ['Final',
+                                           ['15', '16', '17']],
+                        'Quality 1'     : ['Quality 1',
+                                           []],
+                        'Quality 2'     : ['Quality 2',
+                                           []]}
+    inactive_production_lines : {}
+    write_table      : True
+    use_peaks        : False
+    peak_table       : abs_ad_median_replace_tbl_20190917
+ 

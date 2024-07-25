@@ -1,0 +1,109 @@
+plant:
+    code        : 4015
+    latitude    : 42.2415614
+    longitude   : -88.8729955
+    market_id   : 3
+    shift_days  : 5
+    shift_hours : 8
+    absence_codes: [
+        'BERC',
+        'BERE',
+        'BERU',
+        'BERX',
+        'CARE',
+        'CARU',
+        'FMLA',
+        'FMLD',
+        'FMLU',
+        'HOMD',
+        'ILFE',
+        'ILFU',
+        'IPBE',
+        'IPME',
+        'IPNU',
+        'IPSE',
+        'JURE',
+        'MISE',
+        'MISU',
+        'PERU',
+        'PPAA',
+        'PPAU',
+        'TRAG',
+        'WTRU']
+    exclude_dates: [['2018-01-05', '2018-01-09'],
+                    ['2018-10-22', '2018-11-10'],
+                    ['2019-07-08', '2019-07-26'],
+                    ['2019-08-26', '2019-08-30'],
+                    ['2020-03-16', '2020-03-20'],
+                    ['2020-04-20', '2020-04-24'],
+                    ['2020-05-18', '2020-05-22'],
+                    ['2020-07-13', '2020-07-17']]
+
+base_table:
+    start_date     : 2019-05-06
+    end_date       :
+    use_table      :
+    use_table_date :
+    write_table    : True
+
+model:
+    models           : ['sarimax']
+    target           : absences_unplanned
+    npreds           : 5
+    p_arima          : 1
+    d_arima          : 0
+    q_arima          : 0
+    features         : [
+        'actual_hours',
+        'lost_hours',
+        'absences_unplanned_rolling_median_12',
+        'absences_unplanned_rolling_median_20',
+        'day_of_week']
+    top_features     : 5
+    band_pct         : 0.3
+    levels           : ['crew', 'production_line']
+    crews            : ['1st Shift', '2nd Shift']
+    departments      : {'Quality'           : '3210',
+                        'TCF Quality'       : '3250',
+                        'Material'          : '3330',
+                        'Stamping'          : '4200',
+                        'Body Shop'         : '9110',
+                        'Paint Shop'        : '9130',
+                        'Trim'              : '9150',
+                        'Chassis'           : '9171',
+                        'Final'             : '9190'}
+    production_lines : {'Body Shop' :
+                            ['Body Shop',
+                            ['11', '13', '14', '15', '16', '17', '85']],
+                        'Body Shop Quality' :
+                            ['Quality',
+                            ['11']],
+                        'Paint Shop' :
+                            ['Paint Shop',
+                            ['01', '02', '03', '04', '05']],
+                        'Trim' :
+                            ['Trim',
+                            ['01', '02', '03', '04', '85']],
+                        'Chassis' :
+                            ['Chassis',
+                            ['05', '06', '07', '08', '09', '10', '11', '12', '85']],
+                        'TCF Quality 3210' :
+                            ['Quality',
+                            ['02', '03']],
+                        'TCF Quality 3250' :
+                            ['TCF Quality',
+                            ['01', '18']],
+                        'Final' :
+                            ['Final',
+                            ['16', '17', '18', '19']],
+                        'Stamping' :
+                            ['Stamping',
+                            ['01']],
+                        'Material' :
+                            ['Material',
+                            ['10', '11', '13', '15', '17']]}
+    inactive_production_lines : {}
+    write_table      : True
+    use_peaks        : False
+    peak_table       : abs_ad_median_replace_tbl_20190917
+ 

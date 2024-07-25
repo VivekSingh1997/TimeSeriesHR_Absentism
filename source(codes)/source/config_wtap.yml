@@ -1,0 +1,182 @@
+plant:
+    code        : 2452
+    latitude    : 42.456030
+    longitude   : -83.041058
+    market_id   : 7
+    shift_days  : 5
+    shift_hours : 8
+    absence_codes: [
+        'BERC',
+        'BERE',
+        'BERU',
+        'BERX',
+        'CARE',
+        'CARU',
+        'FMLA',
+        'FMLD',
+        'FMLU',
+        'HOMD',
+        'ILFE',
+        'ILFU',
+        'IPBE',
+        'IPME',
+        'IPNU',
+        'IPSE',
+        'JURE',
+        'MISE',
+        'MISU',
+        'PERU',
+        'PPAA',
+        'PPAU',
+        'TRAG',
+        'WTRU']
+
+    exclude_dates: [
+        ['2018-07-16', '2018-07-27'],
+        ['2019-01-02', '2019-01-11'],
+        ['2019-07-15', '2019-07-19'],
+        ['2020-03-30', '2020-07-03']]
+
+base_table:
+    start_date     : 2017-01-01
+    end_date       :
+    use_table      :
+    use_table_date :
+    write_table    : True
+
+model:
+    models           : ['sarimax']
+    target           : absences_unplanned
+    npreds           : 5
+    p_arima          : 1
+    d_arima          : 0
+    q_arima          : 0
+    features         : [
+        'actual_hours',
+        'lost_hours',
+        'absences_unplanned_rolling_median_12',
+        'absences_unplanned_rolling_median_20',
+        'quarter',
+        'month',
+        'week',
+        'day',
+        'day_of_week',
+        'day_of_year']
+    top_features     : 5
+    band_pct         : 0.3
+    levels           : ['crew', 'production_line']
+    crews            : ['A', 'B']
+    departments      : {'Quality'       : '3212',
+                        'Material'      : '3321',
+                        'BIW'           : '9110',
+                        'Paint Regular' : '9130',
+                        'Paint Sprayer' : '9131',
+                        'Trim'          : '9151',
+                        'Chassis'       : '9170',
+                        'Final'         : '9171',
+                        'Reprocess'     : '9190'}
+    production_lines : {'Quality' :
+                            ['Quality',
+                            []],
+                        'Material' :
+                            ['Material',
+                            []],
+                        'BIW B13' :
+                            ['BIW',
+                            ['11']],
+                        'BIW B14' :
+                            ['BIW',
+                            ['21']],
+                        'BIW B17' :
+                            ['BIW',
+                            ['21', '22', '41']],
+                        'BIW B18' :
+                            ['BIW',
+                            ['41']],
+                        'BIW B20' :
+                            ['BIW',
+                            ['02']],
+                        'Paint A1' :
+                            ['Paint Regular',
+                            ['01']],
+                        'Paint P2' :
+                            ['Paint Regular',
+                            ['02']],
+                        'Paint P2A' :
+                            ['Paint Regular',
+                            ['03', '05']],
+                        'Paint P2B' :
+                            ['Paint Regular',
+                            ['04', '06']],
+                        'Paint P8' :
+                            ['Paint Regular',
+                            ['07']],
+                        'Paint P12 (Regular)' :
+                            ['Paint Regular',
+                            ['08']],
+                        'Paint P15' :
+                            ['Paint Regular',
+                            ['09']],
+                        'Paint P15A' :
+                            ['Paint Regular',
+                            ['10']],
+                        'Paint P17' :
+                            ['Paint Regular',
+                            ['08']],
+                        'Paint P21' :
+                            ['Paint Regular',
+                            ['09', '10']],
+                        'Paint P24' :
+                            ['Paint Regular',
+                            ['11']],
+                        'Paint P9' :
+                            ['Paint Sprayer',
+                            ['01']],
+                        'Paint P12 (Sprayer)' :
+                            ['Paint Sprayer',
+                            ['02']],
+                        'Paint P18' :
+                            ['Paint Sprayer',
+                            ['02']],
+                        'Trim Sunroof Loop' :
+                            ['Trim',
+                            ['01', '02', '03', '04', '05', '06']],
+                        'Trim T2 (2nd Leg)' :
+                            ['Trim',
+                            ['07', '08', '09', '10']],
+                        'Trim Door Line' :
+                            ['Trim',
+                            ['11', '12', '13']],
+                        'Trim T3 (3rd Leg)' :
+                            ['Trim',
+                            ['14', '15', '16', '17', '18', '19']],
+                        'Chassis C35' :
+                            ['Chassis',
+                            ['01', '02', '03', '04', '05']],
+                        'Chassis C33' :
+                            ['Chassis',
+                            ['06', '07']],
+                        'Chassis C31 (Motorstation)' :
+                            ['Chassis',
+                            ['08', '09', '10', '11']],
+                        'Chassis F21' :
+                            ['Chassis',
+                            ['12', '13']],
+                        'Final F23' :
+                            ['Final',
+                            ['01', '02', '03', '04', '05']],
+                        'Final F23C' :
+                            ['Final',
+                            ['06', '07', '08', '09']],
+                        'Final F24' :
+                            ['Final',
+                            ['10', '11']],
+                        'Reprocess' :
+                            ['Reprocess',
+                            []]
+                        }
+    inactive_production_lines : {}
+    write_table      : True
+    use_peaks        : False
+    peak_table       : abs_ad_median_replace_tbl_20190917
+ 

@@ -1,0 +1,182 @@
+plant:
+    code        : 2459
+    latitude    : 41.695379
+    longitude   : -83.520427
+    market_id   : 7
+    shift_days  : 6
+    shift_hours : 10
+    absence_codes: [
+        'BERC',
+        'BERE',
+        'BERU',
+        'BERX',
+        'CARE',
+        'CARU',
+        'FMLA',
+        'FMLD',
+        'FMLU',
+        'HOMD',
+        'HOMF',
+        'HOMU',
+        'ILFE',
+        'ILFU',
+        'IPBE',
+        'IPME',
+        'IPNU',
+        'IPSE',
+        'JURE',
+        'MISE',
+        'MISU',
+        'PERU',
+        'PPAA',
+        'PPAU',
+        'TRAG',
+        'WTRU']
+    exclude_dates: [
+        '2018-01-02',
+        '2018-04-03',
+        '2018-05-07',
+        '2018-05-29',
+        '2018-08-13',
+        '2018-12-29',
+        '2019-01-02',
+        '2019-01-11',
+        ['2019-01-14', '2019-01-18'],
+        '2019-01-22',
+        ['2019-05-13', '2019-06-04'],
+        '2020-04-10',
+        '2020-04-13',
+        ['2020-07-13', '2020-07-17']]
+
+base_table:
+    start_date     : 2017-01-01
+    end_date       :
+    use_table      :
+    use_table_date :
+    write_table    : True
+
+model:
+    models           : ['sarimax']
+    target           : absences_unplanned
+    npreds           : 6
+    p_arima          : 1
+    d_arima          : 0
+    q_arima          : 0
+    features         : [
+        'actual_hours',
+        'lost_hours',
+        'absences_unplanned_rolling_median_12',
+        'absences_unplanned_rolling_median_20',
+        'quarter',
+        'month',
+        'week',
+        'day',
+        'day_of_week',
+        'day_of_year']
+    top_features     : 5
+    band_pct         : 0.3
+    levels           : ['crew', 'production_line']
+    crews            : ['AM', 'PM']
+    departments      : {'JL MLM'         : '3381',
+                        'JT Paint Shop'  : '9130',
+                        'South Assembly' : '9152',
+                        'JL Body Shop'   : '9510',
+                        'JL Paint Shop'  : '9530',
+                        'North Assembly' : '9550'}
+    production_lines : {'JL MLM BIW' :
+                            ['JL MLM',
+                            ['01', '02', '03', '04']],
+                        'JL MLM Trim' :
+                            ['JL MLM',
+                            ['05', '06']],
+                        'JL MLM Chassis' :
+                            ['JL MLM',
+                            ['07', '08']],
+                        'JL MLM Final' :
+                            ['JL MLM',
+                            ['09', '10']],
+                        'JL MLM Metering' :
+                            ['JL MLM',
+                            ['77', '80']],
+                        'JLA Trim 1' :
+                            ['North Assembly',
+                            ['01', '02', '03', '04', '05', '06', '07', '08', '20', '21']],
+                        'JLA Trim 2 & 3' :
+                            ['North Assembly',
+                            ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '23', '24', '25', '26', '27']],
+                        'JLA Door Line' :
+                            ['North Assembly',
+                            ['29', '30', '31', '32', '33', '34', '43', '60']],
+                        'JLA Engine Line' :
+                            ['North Assembly',
+                            ['35', '36', '37', '38', '39', '40', '41', '42']],
+                        'JLA Chassis 1' :
+                            ['North Assembly',
+                            ['44', '45', '46', '47', '48', '49', '50', '51']],
+                        'JLA Chassis 2' :
+                            ['North Assembly',
+                            ['64', '65', '66', '67', '68', '69', '70', '71', '72', '73']],
+                        'JLA Final 1 & 2' :
+                            ['North Assembly',
+                            ['61', '62', '63', '64', '65', '66', '67', '68']],
+                        'JLA Final 1' :
+                            ['North Assembly',
+                            ['75', '76', '77', '78', '79', '80', '81', '82', '83', '84']],
+                        'JLA Final 2' :
+                            ['North Assembly',
+                            ['86', '87', '88', '89']],    
+                        'JLA Final 3' :
+                            ['North Assembly',
+                            ['91', '92', '93', '94', '95', '96', '97', '98']],
+                        'JLA Reprocess' :
+                            ['North Assembly',
+                            ['79', '81', '90', '94']],
+                        'JL Body Shop BU1' :
+                            ['JL Body Shop',
+                            ['01', '02']],
+                        'JL Body Shop BU2' :
+                            ['JL Body Shop',
+                            ['03', '04', '09']],
+                        'JL Body Shop BU3' :
+                            ['JL Body Shop',
+                            ['05', '06', '07']],
+                        'JL Body Shop BU4' :
+                            ['JL Body Shop',
+                            ['08', '10', '11', '15']],
+                        'JL Body Shop Fit & Finish'  :
+                            ['JL Body Shop',
+                            ['12']],
+                        'JL Paint Shop BU1' :
+                            ['JL Paint Shop',
+                            ['01', '02', '03', '04', '05', '06', '07', '08', '09']],
+                        'JL Paint Shop BU2' :
+                            ['JL Paint Shop',
+                            ['10', '11', '12', '13']],
+                        'JT Paint Shop' :
+                            ['JT Paint Shop',
+                            ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10']],
+                        'JTA Trim 1' :
+                            ['South Assembly',
+                            ['01', '02', '03', '04', '05', '06', '07', '08']],
+                        'JTA Trim 2' :
+                            ['South Assembly',
+                            ['11', '12', '13', '14', '15', '16']],
+                        'JTA Door Line' :
+                            ['South Assembly',
+                            ['18', '19', '20', '21', '37']],
+                        'JTA Final 1' :
+                            ['South Assembly',
+                            ['21', '22', '23', '24', '25', '26', '27', '28', '29', '30']],
+                        'JTA Final 2' :
+                            ['South Assembly',
+                            ['33', '34']],
+                        'JTA Rolls' :
+                            ['South Assembly',
+                            ['38', '39']]}
+    inactive_production_lines : {'JLA Final 1 & 2' : { inactive_start_date : '2019-11-03',
+                                                       inactive_end_date : }  
+                                }
+    write_table      : True
+    use_peaks        : False
+    peak_table       : abs_ad_median_replace_tbl_20190917
+ 
